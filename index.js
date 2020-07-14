@@ -15,7 +15,7 @@ function onUrlLoad(response)
     let dates = response.match(dregex);
     dates = dates.toString();
     dates = dates.replace(/<div\sclass="botton_datecol">\s+/, "");
-    dates = dates.replace(/\s+  \s+<\/div>/, "");
+    dates = dates.replace(/\s+&nbsp;&nbsp;\s+<\/div>/, "");
     dates = dates.split(" | ");
 
     $("#hijriDate").text(dates[1]);
