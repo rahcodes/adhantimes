@@ -23,11 +23,11 @@ function onUrlLoad(response)
 
     for (let i = 1; i <= 6; i++)
     {
-        if (i == 1)
+        if (i == 1 || i == 2)
         {
             $("#t" + i).text(times[i] + " AM");
         }
-        else if (i == 2)
+        else if (i == 3)
         {
             if (times[i].startsWith("12"))
             {
