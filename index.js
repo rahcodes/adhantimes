@@ -1,5 +1,5 @@
 var cors = "https://cors-anywhere.herokuapp.com/";
-var url = "http://www.mara.gov.om/calendar_page1.asp";
+var url = "http://www.mara.gov.om/arabic/calendar_page1.asp";
 var xurl = cors + url;
 
 var tregex = /<td>.+<\/td><td>.+<\/td><td>.+<\/td><td>.+<\/td><td>.+<\/td><td>.+<\/td><td>.+<\/td>/;
