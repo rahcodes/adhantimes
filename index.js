@@ -1,6 +1,3 @@
-const main = document.getElementsByClassName("main")[0];
-const loaderCon = document.getElementsByClassName("loader-container")[0];
-
 const corsDep = "https://thingproxy.freeboard.io/fetch/";
 const url = "http://www.mara.gov.om/arabic/calendar_page1.asp";
 const xurl = corsDep + url;
@@ -8,7 +5,9 @@ const xurl = corsDep + url;
 const parser = new DOMParser();
 
 window.onload = async () => {
-    alert("");
+    const main = document.getElementsByClassName("main")[0];
+    const loaderCon = document.getElementsByClassName("loader-container")[0];
+
     const data = await fetch(xurl);
 
     if (!data.ok) {
