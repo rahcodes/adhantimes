@@ -1,6 +1,6 @@
-const corsDep = "https://thingproxy.freeboard.io/fetch/";
+const corsDep = "https://api.allorigins.win/get?url=";
 const url = "http://www.mara.gov.om/arabic/calendar_page1.asp";
-const xurl = corsDep + url;
+const xurl = corsDep + encodeURIComponent(url);
 
 const parser = new DOMParser();
 
