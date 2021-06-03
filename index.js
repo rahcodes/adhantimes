@@ -7,8 +7,15 @@ const parser = new DOMParser();
 window.onload = async () => {
     const main = document.getElementsByClassName("main")[0];
     const loaderCon = document.getElementsByClassName("loader-container")[0];
-
-    const data = await fetch(xurl);
+    
+    let data;
+    try {
+        data = await fetch(xurl);
+    }
+    catch (e) {
+        loaderCon.innerHTML = "ERROR: CORS failed.";
+        return;
+    }
 
     if (!data.ok) {
         loaderCon.innerHTML = "ERROR: CORS failed.";
