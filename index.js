@@ -1,51 +1,66 @@
-var cors = "https://cors-anywhere.herokuapp.com/";
-var url = "http://www.mara.gov.om/arabic/calendar_page1.asp";
-var xurl = cors + url;
+const main = document.getElementsByClassName("main")[0];
+const loaderCon = document.getElementsByClassName("loader-container")[0];
 
-var tregex = /<td>.+<\/td><td>.+<\/td><td>.+<\/td><td>.+<\/td><td>.+<\/td><td>.+<\/td><td>.+<\/td>/;
-var dregex = /<div\sclass="botton_datecol">\s+.+\s+<\/div>/;
+const corsDep = "https://thingproxy.freeboard.io/fetch/";
+const url = "http://www.mara.gov.om/arabic/calendar_page1.asp";
+const xurl = corsDep + url;
 
-function onUrlLoad(response)
-{
-    let times = response.match(tregex);
-    times = times.toString();
-    times = times.replace(/<td>/gi, "");
-    times = times.split("</td>");
+const parser = new DOMParser();
 
-    let dates = response.match(dregex);
-    dates = dates.toString();
-    dates = dates.replace(/<div\sclass="botton_datecol">\s+/, "");
-    dates = dates.replace(/\s+&nbsp;&nbsp;\s+<\/div>/, "");
-    dates = dates.split(" | ");
+window.onload = async() => {
+    const data = await fetch(xurl);
 
-    $("#hijriDate").text(dates[1]);
-    $("#normalDate").text(dates[0]);
+    if (!data.ok) {
+        loaderCon.innerHTML = "ERROR: CORS failed.";
+        return;
+    }
 
-    for (let i = 1; i <= 6; i++)
-    {
-        if (i == 1 || i == 2)
-        {
-            $("#t" + i).text(times[i] + " AM");
+    const text = await data.text();
+
+    const dom = parser.parseFromString(text, "text/html");
+
+    try {
+        const dates = dom.getElementsByClassName("botton_datecol")[0].innerText.trim().split(" CE ");
+        document.getElementById("normalDate").innerText = dates[0] + " CE";
+        document.getElementById("hijriDate").innerText = dates[1];
+    }
+    catch (e) {
+        loaderCon.innerHTML = "ERROR: Date parsing failed.";
+        return;
+    }
+
+    let times_r;
+    let times = [];
+    try {
+        times_r = dom.getElementsByClassName("table-responsive table_area")[0].getElementsByTagName("td");
+    }
+    catch (e) {
+        loaderCon.innerHTML = "ERROR: Time parsing failed.";
+        return;
+    }
+
+    for (t of times_r) {
+        times.push(t.innerText);
+    }
+
+    for (let i = 1; i <= 6; i++) {
+        if (i == 1 || i == 2) {
+            document.getElementById("t" + i).innerText = times[i] + " AM";
         }
-        else if (i == 3)
-        {
-            if (times[i].startsWith("12"))
-            {
-                $("#t" + i).text(times[i] + " PM");
+        else if (i == 3) {
+            if (times[i].startsWith("12")) {
+                document.getElementById("t" + i).innerText = times[i] + " PM";
             }
-            else
-            {
-                $("#t" + i).text(times[i] + " AM");
+            else {
+                document.getElementById("t" + i).innerText = times[i] + " AM";
             }
         }
-        else
-        {
-            $("#t" + i).text(times[i] + " PM");
+        else {
+            document.getElementById("t" + i).innerText = times[i] + " PM";
         }
     }
 
-    $("#load").css("display", "none");
-    $("#main").css("display", "");
-}
 
-$.get(xurl, onUrlLoad);
+    loaderCon.classList.add("hidden");
+    main.classList.remove("hidden");
+}
