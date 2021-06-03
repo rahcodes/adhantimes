@@ -7,7 +7,8 @@ const xurl = corsDep + url;
 
 const parser = new DOMParser();
 
-window.onload = async function(){
+window.onload = async () => {
+    alert("");
     const data = await fetch(xurl);
 
     if (!data.ok) {
