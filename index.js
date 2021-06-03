@@ -22,7 +22,7 @@ window.onload = async () => {
         return;
     }
 
-    const text = await data.text();
+    const text = (await data.json()).contents;
 
     const dom = parser.parseFromString(text, "text/html");
 
