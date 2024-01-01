@@ -69,7 +69,6 @@ window.onload = async () => {
     }
 
 
-    
     loaderCon.classList.add("hidden");
     main.classList.remove("hidden");
 }
