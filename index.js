@@ -1,5 +1,5 @@
-const corsDep = "https://api.allorigins.win/get?url=";
-const url = "http://www.mara.gov.om/arabic/calendar_page1.asp";
+const corsDep = "https://corsproxy.io/?";
+const url = "https://www.mara.gov.om/arabic/calendar_page1.asp";
 const xurl = corsDep + encodeURIComponent(url);
 
 const parser = new DOMParser();
@@ -22,7 +22,8 @@ window.onload = async () => {
         return;
     }
 
-    const text = (await data.json()).contents;
+    // const text = (await data.json()).contents;
+    const text = await data.text();
 
     const dom = parser.parseFromString(text, "text/html");
 
